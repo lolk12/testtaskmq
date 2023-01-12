@@ -1,9 +1,16 @@
 import { PADDING_COORDS, WIDTH_DPI } from 'src/const/chart';
 
-import { getSizeStep, getRangeDays, isSmallData, normalizeData } from '../normalizeData';
+import {
+  getSizeStep,
+  getRangeDays,
+  isSmallData,
+  normalizeData,
+} from '../normalizeData';
 
 const MOCK_DAT_MAP = new Map<number, number[]>([
-  ...new Array(1000).fill(0).map<[number, number[]]>((item, i) => [i + 1, [i + 1]]),
+  ...new Array(1000)
+    .fill(0)
+    .map<[number, number[]]>((item, i) => [i + 1, [i + 1]]),
 ]);
 
 describe('getSizeStep', () => {
@@ -18,7 +25,9 @@ describe('getSizeStep', () => {
 
 describe('normalizeData', () => {
   it('should return min === 2', () => {
-    expect(normalizeData({ startYear: 2, endYear: 600, dataMap: MOCK_DAT_MAP }).min).toBe(6);
+    expect(
+      normalizeData({ startYear: 2, endYear: 600, dataMap: MOCK_DAT_MAP }).min
+    ).toBe(6);
   });
 });
 

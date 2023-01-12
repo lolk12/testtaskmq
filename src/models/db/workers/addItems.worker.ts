@@ -7,7 +7,11 @@ import type { Config } from '../db';
 import { getNotAddedItems } from '../utils/getNotAddedItems';
 
 // add new many row to the table
-const addItems = (db: IDBDatabase, items: ItemData[] | undefined, key: Config['dbObjectKey']) => {
+const addItems = (
+  db: IDBDatabase,
+  items: ItemData[] | undefined,
+  key: Config['dbObjectKey']
+) => {
   if (!items) {
     console.error('No items');
     return [];
@@ -17,7 +21,7 @@ const addItems = (db: IDBDatabase, items: ItemData[] | undefined, key: Config['d
 
   for (const item of items) {
     const request = dbModel.add(db, key, item);
-    request.then(keyRow => {
+    request.then((keyRow) => {
       postMessage({
         msg: 'addRowTable',
         data: {
@@ -34,9 +38,16 @@ const addItems = (db: IDBDatabase, items: ItemData[] | undefined, key: Config['d
 
 // add all data in indexedDB
 onmessage = async ({
-  data: { dbName, dbVersion, temperature, precipitation, lastAddedItemTemperature, lastAddedItemPrecipitation },
+  data: {
+    dbName,
+    dbVersion,
+    temperature,
+    precipitation,
+    lastAddedItemTemperature,
+    lastAddedItemPrecipitation,
+  },
 }) => {
-  const DB = await dbModel.open(dbName, dbVersion, innerDB => {
+  const DB = await dbModel.open(dbName, dbVersion, (innerDB) => {
     innerDB.createObjectStore(TEMPERATURE_CODE, { keyPath: 't' });
     innerDB.createObjectStore(PRECIPITATION_CODE, { keyPath: 't' });
   });

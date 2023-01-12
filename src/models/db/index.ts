@@ -1,6 +1,10 @@
 import type { ItemData } from 'src/types';
 
-import { TEMPERATURE_CODE, PRECIPITATION_CODE, IS_COMPLETED_WRITE_DB_KEY } from 'src/const/data';
+import {
+  TEMPERATURE_CODE,
+  PRECIPITATION_CODE,
+  IS_COMPLETED_WRITE_DB_KEY,
+} from 'src/const/data';
 import { wrapWorker } from 'src/utils/wrapWorker';
 
 import * as localStore from '../localStorage';
@@ -11,7 +15,8 @@ import type { AllData } from './db';
 
 // init DB and return all data from the database or server
 export const init = async (dbName: string, dbVersion: number) => {
-  const isCompletedWriterDB = localStorage.getItem(IS_COMPLETED_WRITE_DB_KEY) === 'true';
+  const isCompletedWriterDB =
+    localStorage.getItem(IS_COMPLETED_WRITE_DB_KEY) === 'true';
 
   // all data requested from the database or server
   const allData: AllData = {
@@ -19,7 +24,7 @@ export const init = async (dbName: string, dbVersion: number) => {
     [PRECIPITATION_CODE]: [],
   };
 
-  const DB = await dbModel.open(dbName, dbVersion, innerDB => {
+  const DB = await dbModel.open(dbName, dbVersion, (innerDB) => {
     innerDB.createObjectStore(TEMPERATURE_CODE, { keyPath: 't' });
     innerDB.createObjectStore(PRECIPITATION_CODE, { keyPath: 't' });
   });
@@ -40,8 +45,10 @@ export const init = async (dbName: string, dbVersion: number) => {
   }
 
   try {
-    const lastAddedItemTemperature = localStore.getLastAddedItem(TEMPERATURE_CODE);
-    const lastAddedItemPrecipitation = localStore.getLastAddedItem(PRECIPITATION_CODE);
+    const lastAddedItemTemperature =
+      localStore.getLastAddedItem(TEMPERATURE_CODE);
+    const lastAddedItemPrecipitation =
+      localStore.getLastAddedItem(PRECIPITATION_CODE);
     const [temperature, precipitation] = await requestAllData();
 
     allData[TEMPERATURE_CODE] = temperature;
@@ -49,7 +56,10 @@ export const init = async (dbName: string, dbVersion: number) => {
 
     const onWorkerMessage = ({
       data: { msg, data },
-    }: MessageEvent<{ msg: string; data: { key: string; keyRow: string } }>) => {
+    }: MessageEvent<{
+      msg: string;
+      data: { key: string; keyRow: string };
+    }>) => {
       if (msg === 'addRowTable') {
         localStore.saveLastAddedItem(data.key, data.keyRow);
       }
@@ -69,7 +79,7 @@ export const init = async (dbName: string, dbVersion: number) => {
         lastAddedItemTemperature,
         lastAddedItemPrecipitation,
       },
-      onWorkerMessage,
+      onWorkerMessage
     );
   } catch (err) {
     throw new Error(err.message);

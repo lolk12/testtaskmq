@@ -1,18 +1,8 @@
 {
-  "printWidth": 120,
-  "tabWidth": 2,
   "useTabs": false,
-  "semi": true,
+  "tabWidth": 2,
   "singleQuote": true,
-  "quoteProps": "as-needed",
-  "jsxSingleQuote": false,
-  "trailingComma": "all",
-  "bracketSpacing": true,
-  "jsxBracketSameLine": true,
-  "arrowParens": "avoid",
-  "endOfLine": "auto",
-  "plugins": [
-    "prettier-plugin-svelte"
-  ],
-  "pluginSearchDirs": false
+  "semi": true,
+  "proseWrap": "never",
+  "plugins": ["prettier-plugin-svelte"]
 }

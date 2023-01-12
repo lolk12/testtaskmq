@@ -16,7 +16,9 @@ describe('getRatio', () => {
 
 describe('getXCoord', () => {
   it('should return the x coord', () => {
-    expect(getXCoord(-10, MOCK_DATA, getRatio(MOCK_DATA, HEIGHT_DPI, PADDING))).toBe(30);
+    expect(
+      getXCoord(-10, MOCK_DATA, getRatio(MOCK_DATA, HEIGHT_DPI, PADDING))
+    ).toBe(30);
   });
 });
 

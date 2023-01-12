@@ -1,7 +1,11 @@
 import { HEIGHT_DPI, WIDTH_DPI, PADDING } from 'src/const/chart';
 
 // paint min and max values
-export const paintText = (ctx: CanvasRenderingContext2D, min: number, max: number) => {
+export const paintText = (
+  ctx: CanvasRenderingContext2D,
+  min: number,
+  max: number
+) => {
   const paint = (x: number, xText: number, text: string) => {
     ctx.beginPath();
     ctx.save();

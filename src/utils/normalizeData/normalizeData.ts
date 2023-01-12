@@ -2,7 +2,11 @@ import { COEFFICIENT } from 'src/const/data';
 import { PADDING_COORDS, WIDTH_DPI } from 'src/const/chart';
 
 // get data for a range of years
-export const getRangeDays = (dataMap: Map<number, number[]>, startYear: number, endYear: number) => {
+export const getRangeDays = (
+  dataMap: Map<number, number[]>,
+  startYear: number,
+  endYear: number
+) => {
   let result: number[] = [];
 
   if (startYear > endYear) {
@@ -22,10 +26,14 @@ export const getRangeDays = (dataMap: Map<number, number[]>, startYear: number, 
   return result;
 };
 
-export const getSizeStep = (length: number, width = WIDTH_DPI, padding = PADDING_COORDS) =>
-  Math.floor(length / (width / padding)) || 1;
+export const getSizeStep = (
+  length: number,
+  width = WIDTH_DPI,
+  padding = PADDING_COORDS
+) => Math.floor(length / (width / padding)) || 1;
 
-export const isSmallData = (length: number, stepSize: number) => length < stepSize * 0.5;
+export const isSmallData = (length: number, stepSize: number) =>
+  length < stepSize * 0.5;
 
 export type NormalizeDataArgs = {
   startYear: number;
@@ -33,7 +41,11 @@ export type NormalizeDataArgs = {
   dataMap: Map<number, number[]>;
 };
 
-export const normalizeData = ({ startYear, endYear, dataMap }: NormalizeDataArgs) => {
+export const normalizeData = ({
+  startYear,
+  endYear,
+  dataMap,
+}: NormalizeDataArgs) => {
   let min: number = Number.MAX_SAFE_INTEGER;
   let max: number = Number.MIN_SAFE_INTEGER;
 
@@ -49,7 +61,9 @@ export const normalizeData = ({ startYear, endYear, dataMap }: NormalizeDataArgs
     const nextIndex = i + SIZE_STEP;
 
     // sorting data and get percentile
-    const sortedCurrentDays = rangeDays.slice(i, nextIndex).sort((a, b) => (a > b ? +1 : -1));
+    const sortedCurrentDays = rangeDays
+      .slice(i, nextIndex)
+      .sort((a, b) => (a > b ? +1 : -1));
     const percentile = Math.floor(COEFFICIENT * sortedCurrentDays.length);
     const percentileRankDay = sortedCurrentDays[percentile];
 

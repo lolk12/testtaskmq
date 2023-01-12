@@ -23,30 +23,44 @@ const wrap = <T>(req: IDBOpenDBRequest | IDBRequest<T>): Promise<T> => {
 };
 
 /* Returned range data from the table 
-* config.start --> return all items >= start || if config.open === false --> return items > start
-* config.end --> return all items <= end || if config.open === false --> return items > end
+* config.start --> return all items >= start ||
+   if config.open === false --> return items > start
+* config.end --> return all items <= end ||
+   if config.open === false --> return items > end
 * config.start && config.end --> return items >= start && items <= end ||
     if config.open === false --> return items > start && items < end
 * */
-export const getRangeData = async <T>(db: IDBDatabase, { dbObjectKey, start, end, open }: Omit<Config, 'index'>) => {
+export const getRangeData = async <T>(
+  db: IDBDatabase,
+  { dbObjectKey, start, end, open }: Omit<Config, 'index'>
+) => {
   const tx = db.transaction(dbObjectKey, 'readonly', { durability: 'relaxed' });
   const objectStore = tx.objectStore(dbObjectKey);
 
   let request: T[];
 
   if (start && end) {
-    request = await wrap<T[]>(objectStore.getAll(IDBKeyRange.bound(start, end, Boolean(open))));
+    request = await wrap<T[]>(
+      objectStore.getAll(IDBKeyRange.bound(start, end, Boolean(open)))
+    );
   } else if (start) {
-    request = await wrap<T[]>(objectStore.getAll(IDBKeyRange.upperBound(start, Boolean(open))));
+    request = await wrap<T[]>(
+      objectStore.getAll(IDBKeyRange.upperBound(start, Boolean(open)))
+    );
   } else {
-    request = await wrap<T[]>(objectStore.getAll(IDBKeyRange.lowerBound(end, Boolean(open))));
+    request = await wrap<T[]>(
+      objectStore.getAll(IDBKeyRange.lowerBound(end, Boolean(open)))
+    );
   }
 
   return request;
 };
 
 // returned all data from the table
-export const getAll = async <T>(db: IDBDatabase, dbObjectKey: Config['dbObjectKey']) => {
+export const getAll = async <T>(
+  db: IDBDatabase,
+  dbObjectKey: Config['dbObjectKey']
+) => {
   const tx = db.transaction(dbObjectKey, 'readonly', { durability: 'relaxed' });
   const objectStore = tx.objectStore(dbObjectKey);
 
@@ -54,7 +68,11 @@ export const getAll = async <T>(db: IDBDatabase, dbObjectKey: Config['dbObjectKe
 };
 
 // returned the row from the table
-export const get = <T>(db: IDBDatabase, dbObjectKey: Config['dbObjectKey'], index: Config['index']) => {
+export const get = <T>(
+  db: IDBDatabase,
+  dbObjectKey: Config['dbObjectKey'],
+  index: Config['index']
+) => {
   const tx = db.transaction(dbObjectKey, 'readonly', { durability: 'relaxed' });
   const objectStore = tx.objectStore(dbObjectKey);
 
@@ -62,14 +80,22 @@ export const get = <T>(db: IDBDatabase, dbObjectKey: Config['dbObjectKey'], inde
 };
 
 // add new row to the table
-export const add = <T>(db: IDBDatabase, dbObjectKey: Config['dbObjectKey'], val: T) => {
+export const add = <T>(
+  db: IDBDatabase,
+  dbObjectKey: Config['dbObjectKey'],
+  val: T
+) => {
   const tx = db.transaction(dbObjectKey, 'readwrite');
   const objectStore = tx.objectStore(dbObjectKey);
 
   return wrap(objectStore.add(val));
 };
 
-export const open = (dbName: string, dbVersion: number, cb: (innerDB: IDBDatabase) => void) => {
+export const open = (
+  dbName: string,
+  dbVersion: number,
+  cb: (innerDB: IDBDatabase) => void
+) => {
   const openRequest = indexedDB.open(dbName, dbVersion);
 
   openRequest.onupgradeneeded = () => {
