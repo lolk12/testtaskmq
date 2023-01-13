@@ -27,6 +27,8 @@
     isOpen = !isOpen;
   };
 
+  $: activeItem = val;
+
   $: {
     if (isOpen && optionsEl) {
       const el = optionsEl.querySelector<HTMLButtonElement>(
