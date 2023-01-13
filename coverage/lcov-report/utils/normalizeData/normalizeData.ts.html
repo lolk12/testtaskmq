@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95% </span>
+                <span class="strong">95.12% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>38/40</span>
+                <span class='fraction'>39/41</span>
             </div>
         
             
@@ -150,12 +150,26 @@
 <a name='L85'></a><a href='#L85'>85</a>
 <a name='L86'></a><a href='#L86'>86</a>
 <a name='L87'></a><a href='#L87'>87</a>
-<a name='L88'></a><a href='#L88'>88</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
@@ -176,6 +190,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -188,6 +205,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -196,13 +217,14 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">67x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">67x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">532x</span>
 <span class="cline-any cline-yes">67x</span>
@@ -237,72 +259,83 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { COEFFICIENT } from '../../const/data'
-import { PADDING_COORDS, WIDTH_DPI } from '../../const/chart';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { COEFFICIENT } from '@/const/data';
+import { PADDING_COORDS, WIDTH_DPI } from '@/const/chart';
 &nbsp;
-&nbsp;
-// get data for a range of years 
-export const getRangeDays = (dataMap: Map&lt;number, number[]&gt;, startYear: number, endYear: number) =&gt; {
+// get data for a range of years
+export const getRangeDays = (
+  dataMap: Map&lt;number, number[]&gt;,
+  startYear: number,
+  endYear: number
+) =&gt; {
   let result: number[] = [];
 &nbsp;
-  if(startYear &gt;= endYear) {
+  if (startYear &gt; endYear) {
     return [];
   }
 &nbsp;
-  for(const [yearKey, days] of dataMap.entries()) {
-    if(yearKey &lt; startYear) {
+  for (const [yearKey, days] of dataMap.entries()) {
+    if (yearKey &lt; startYear) {
       continue;
     }
-    if(yearKey &gt; endYear) {
+    if (yearKey &gt; endYear) {
       break;
     }
     result = [...result, ...days];
   }
 &nbsp;
   return result;
-}
+};
 &nbsp;
-export const getSizeStep = (length: number, width = WIDTH_DPI, padding = PADDING_COORDS) =&gt; 
-  Math.floor(length / (width / padding)) || 1
+export const getSizeStep = (
+  length: number,
+  width = WIDTH_DPI,
+  padding = PADDING_COORDS
+) =&gt; Math.floor(length / (width / padding)) || 1;
 &nbsp;
 export const isSmallData = (length: number, stepSize: number) =&gt;
-  (length &lt; (stepSize * 0.5))
+  length &lt; stepSize * 0.5;
 &nbsp;
 export type NormalizeDataArgs = {
   startYear: number;
   endYear: number;
   dataMap: Map&lt;number, number[]&gt;;
-}
+};
 &nbsp;
-export const normalizeData = ({ startYear, endYear, dataMap }: NormalizeDataArgs) =&gt; {
+export const normalizeData = ({
+  startYear,
+  endYear,
+  dataMap,
+}: NormalizeDataArgs) =&gt; {
   let min: number = Number.MAX_SAFE_INTEGER;
   let max: number = Number.MIN_SAFE_INTEGER;
 &nbsp;
-  const resultDays: number[] = []
+  const resultDays: number[] = [];
 &nbsp;
   const rangeDays = getRangeDays(dataMap, startYear, endYear);
 &nbsp;
   const SIZE_STEP = getSizeStep(rangeDays.length);
-&nbsp;
 &nbsp;
   let i = 0;
   while (i &lt; rangeDays.length) {
     // getting next index with ignore length rangeDays
     const nextIndex = i + SIZE_STEP;
 &nbsp;
-    // sorting data and get percentile 
-    const sortedCurrentDays = rangeDays.slice(i, nextIndex).sort((a, b) =&gt; a &gt; b ? +1 : <span class="branch-1 cbranch-no" title="branch not covered" >-1)</span>
-    const percentile = Math.floor(COEFFICIENT * sortedCurrentDays.length)
+    // sorting data and get percentile
+    const sortedCurrentDays = rangeDays
+      .slice(i, nextIndex)
+      .sort((a, b) =&gt; (a &gt; b ? +1 : <span class="branch-1 cbranch-no" title="branch not covered" >-1)</span>);
+    const percentile = Math.floor(COEFFICIENT * sortedCurrentDays.length);
     const percentileRankDay = sortedCurrentDays[percentile];
 &nbsp;
     // skip step if remaining step has &lt; half size step
-    <span class="missing-if-branch" title="if path not taken" >I</span>if(isSmallData(sortedCurrentDays.length, SIZE_STEP)) {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (isSmallData(sortedCurrentDays.length, SIZE_STEP)) {
 <span class="cstat-no" title="statement not covered" >      i = nextIndex;</span>
 <span class="cstat-no" title="statement not covered" >      continue;</span>
     }
-    
-    // init min or max values 
-    if(i === 0) {
+&nbsp;
+    // init min or max values
+    if (i === 0) {
       min = percentileRankDay;
       max = percentileRankDay;
     }
@@ -321,17 +354,17 @@ export const normalizeData = ({ startYear, endYear, dataMap }: NormalizeDataArgs
     max,
     days: resultDays,
   };
-}
+};
 &nbsp;
-&nbsp;
-export type NormalizeDataReturn = ReturnType&lt;typeof normalizeData&gt;;</pre></td></tr></table></pre>
+export type NormalizeDataReturn = ReturnType&lt;typeof normalizeData&gt;;
+&nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-01-12T19:59:21.910Z
+                at 2023-01-13T14:27:43.600Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

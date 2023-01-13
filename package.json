@@ -9,6 +9,7 @@
     "build": "vite build && cp -R ./data ./dist ",
     "preview": "vite preview",
     "test": "jest",
+    "coverage": "jest --coverage",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write",
     "lint": "npx eslint \"src/**\"",
