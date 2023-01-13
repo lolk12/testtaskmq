@@ -2,7 +2,7 @@
 export const wrapWorker = async <T>(
   worker: Promise<typeof import('*?worker')>,
   args,
-  cb?: (data: MessageEvent<T>) => void,
+  cb?: (data: MessageEvent<T>) => void
 ): Promise<T | undefined> => {
   const SyncWorker = await worker;
   const syncWorker = new SyncWorker.default();

@@ -28,12 +28,15 @@
   let allDataMap: ReturnType<typeof getAllDataMap>;
 
   const updateData = async () => {
-    normalizeData = await wrapWorker<NormalizeDataReturn>(import('./utils/normalizeData/worker?worker'), {
-      dataMap: allDataMap.get(code),
-      startYear: selectStartYear,
-      endYear: selectEndYear,
-      dbObjectKey: code,
-    });
+    normalizeData = await wrapWorker<NormalizeDataReturn>(
+      import('./utils/normalizeData/worker?worker'),
+      {
+        dataMap: allDataMap.get(code),
+        startYear: selectStartYear,
+        endYear: selectEndYear,
+        dbObjectKey: code,
+      }
+    );
   };
 
   const onChangeStartYear = async (e: CustomEvent<number>) => {
@@ -68,7 +71,10 @@
       rangeYears = getRangeDefaultYears(currentData);
       selectStartYear = rangeYears?.startYear;
       selectEndYear = rangeYears?.endYear;
-      selectOptions = getDataForSelect(rangeYears.startYear, rangeYears.endYear);
+      selectOptions = getDataForSelect(
+        rangeYears.startYear,
+        rangeYears.endYear
+      );
 
       await updateData();
 
@@ -93,11 +99,16 @@
             className="first-select"
             on:change={onChangeStartYear}
           />
-          <Select val={selectEndYear} options={selectOptions} on:change={onChangeEndYear} />
+          <Select
+            val={selectEndYear}
+            options={selectOptions}
+            on:change={onChangeEndYear}
+          />
         </div>
 
         <div class="buttons-wrapper">
-          <Button on:click={onClickButton(TEMPERATURE_CODE)}>Температура</Button>
+          <Button on:click={onClickButton(TEMPERATURE_CODE)}>Температура</Button
+          >
           <Button on:click={onClickButton(PRECIPITATION_CODE)}>Осадки</Button>
         </div>
         <div class="chart-wrapper">

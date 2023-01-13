@@ -1,11 +1,12 @@
-import { PADDING_COORDS, WIDTH_DPI } from 'src/const/chart';
-
 import {
   getSizeStep,
   getRangeDays,
   isSmallData,
   normalizeData,
 } from '../normalizeData';
+
+const PADDING_COORDS = 20;
+const WIDTH_DPI = 1200;
 
 const MOCK_DAT_MAP = new Map<number, number[]>([
   ...new Array(1000)

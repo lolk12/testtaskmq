@@ -1,5 +1,5 @@
 import { getRangeDefaultYears } from '../getRangeDefaultYears';
-import { MOCK_DATA_ITEMS, FIRST_YEAR, SECOND_YEAR } from './mock';
+import { MOCK_DATA_ITEMS, FIRST_YEAR, SECOND_YEAR } from '@/const/mocks';
 
 describe('getRangeDefaultYears', () => {
   it('should return the default years', () => {

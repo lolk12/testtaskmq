@@ -4,9 +4,10 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:jest/recommended',
     'prettier',
   ],
-  plugins: ['svelte3', '@typescript-eslint', 'prettier'],
+  plugins: ['svelte3', '@typescript-eslint', 'jest', 'prettier'],
   ignorePatterns: ['*.cjs', '**/*.css', '**/*.scss'],
   overrides: [{ files: ['*.svelte'], processor: 'svelte3/svelte3' }],
   settings: {
@@ -15,9 +16,12 @@ module.exports = {
   rules: {
     quotes: [2, 'single', { avoidEscape: true }],
     indent: ['error', 2],
-    'max-len': [2, { code: 80, ignorePattern: '^import\\W.*' }],
-    // 'max-len': ['error', { code: 80 }],
     'no-console': 0,
+    'jest/no-disabled-tests': 'warn',
+    'jest/no-focused-tests': 'error',
+    'jest/no-identical-title': 'error',
+    'jest/prefer-to-have-length': 'warn',
+    'jest/valid-expect': 'error',
   },
   parserOptions: {
     sourceType: 'module',
@@ -26,5 +30,6 @@ module.exports = {
   env: {
     browser: true,
     node: true,
+    'jest/globals': true,
   },
 };

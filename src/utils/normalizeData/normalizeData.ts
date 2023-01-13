@@ -1,5 +1,5 @@
-import { COEFFICIENT } from 'src/const/data';
-import { PADDING_COORDS, WIDTH_DPI } from 'src/const/chart';
+import { COEFFICIENT } from '@/const/data';
+import { PADDING_COORDS, WIDTH_DPI } from '@/const/chart';
 
 // get data for a range of years
 export const getRangeDays = (

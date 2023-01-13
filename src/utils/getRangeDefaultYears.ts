@@ -1,4 +1,4 @@
-import type { ItemData } from 'src/types';
+import type { ItemData } from '@/types';
 
 // return startYear and endYear from the data
 export const getRangeDefaultYears = (data: ItemData[]) => ({

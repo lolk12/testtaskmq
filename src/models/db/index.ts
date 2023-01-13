@@ -1,11 +1,11 @@
-import type { ItemData } from 'src/types';
+import type { ItemData } from '@/types';
 
 import {
   TEMPERATURE_CODE,
   PRECIPITATION_CODE,
   IS_COMPLETED_WRITE_DB_KEY,
-} from 'src/const/data';
-import { wrapWorker } from 'src/utils/wrapWorker';
+} from '@/const/data';
+import { wrapWorker } from '@/utils/wrapWorker';
 
 import * as localStore from '../localStorage';
 
@@ -29,8 +29,12 @@ export const init = async (dbName: string, dbVersion: number) => {
     innerDB.createObjectStore(PRECIPITATION_CODE, { keyPath: 't' });
   });
 
+  if (!DB) {
+    console.error('IndexedDB is not available');
+  }
+
   try {
-    if (isCompletedWriterDB) {
+    if (isCompletedWriterDB || !DB) {
       const [temperature, precipitation] = await Promise.all<ItemData[]>([
         dbModel.getAll<ItemData>(DB, TEMPERATURE_CODE),
         dbModel.getAll<ItemData>(DB, PRECIPITATION_CODE),

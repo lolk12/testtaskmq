@@ -1,6 +1,6 @@
-import type { ItemData } from 'src/types';
+import type { ItemData } from '@/types';
 
-import { TEMPERATURE_CODE, PRECIPITATION_CODE } from 'src/const/data';
+import { TEMPERATURE_CODE, PRECIPITATION_CODE } from '@/const/data';
 
 export type Config = {
   start?: string;
@@ -95,7 +95,10 @@ export const open = (
   dbName: string,
   dbVersion: number,
   cb: (innerDB: IDBDatabase) => void
-) => {
+): Promise<IDBDatabase> | null => {
+  if (!indexedDB) {
+    return null;
+  }
   const openRequest = indexedDB.open(dbName, dbVersion);
 
   openRequest.onupgradeneeded = () => {

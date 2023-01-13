@@ -1,4 +1,4 @@
-import { HEIGHT_DPI, WIDTH_DPI, PADDING } from 'src/const/chart';
+import { HEIGHT_DPI, WIDTH_DPI, PADDING } from '@/const/chart';
 
 // paint min and max values
 export const paintText = (

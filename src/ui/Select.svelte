@@ -29,7 +29,9 @@
 
   $: {
     if (isOpen && optionsEl) {
-      const el = optionsEl.querySelector<HTMLButtonElement>(getOptionClassName(activeItem));
+      const el = optionsEl.querySelector<HTMLButtonElement>(
+        getOptionClassName(activeItem)
+      );
 
       if (el) {
         el.focus();
@@ -81,7 +83,7 @@
     <div bind:this={optionsEl} class="options">
       {#each options as year (year)}
         <button
-          on:click={e => {
+          on:click={(e) => {
             e.stopPropagation();
             onChange(year);
           }}
@@ -93,9 +95,21 @@
       {/each}
     </div>
   {/if}
-  <div class={isOpen ? 'select-wrapper__arrow select-wrapper__arrow_open' : 'select-wrapper__arrow'}>
-    <svg class="select-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-      <path d="M12 5.887l8.468 14.113h-16.936l8.468-14.113zm0-3.887l-12 20h24l-12-20z" />
+  <div
+    class={isOpen
+      ? 'select-wrapper__arrow select-wrapper__arrow_open'
+      : 'select-wrapper__arrow'}
+  >
+    <svg
+      class="select-arrow"
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M12 5.887l8.468 14.113h-16.936l8.468-14.113zm0-3.887l-12 20h24l-12-20z"
+      />
     </svg>
   </div>
 </button>
@@ -172,7 +186,9 @@
     overflow-y: auto;
     background-color: #fff;
     left: calc(0px - var(--select-component_border-size));
-    top: calc(var(--select-component_height) - var(--select-component_border-size));
+    top: calc(
+      var(--select-component_height) - var(--select-component_border-size)
+    );
     z-index: 2;
     border: var(--select-component_border-size) solid var(--primary);
     border-top: none;

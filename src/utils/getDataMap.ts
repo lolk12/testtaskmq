@@ -1,6 +1,6 @@
-import type { ItemData } from 'src/types';
-import type { AllData } from 'src/models/db/db';
-import type { Code } from 'src/const/data';
+import type { ItemData } from '@/types';
+import type { AllData } from '@/models/db/db';
+import type { Code } from '@/const/data';
 
 export type DataMap = Map<number, number[]>;
 
@@ -8,7 +8,7 @@ export type DataMap = Map<number, number[]>;
 export const getDataMap = (data: ItemData[]) => {
   const dataMap: DataMap = new Map();
 
-  data.forEach(item => {
+  data.forEach((item) => {
     const year = Number(item?.t.split('-')[0]);
     if (dataMap.has(year)) {
       const currentDays = dataMap.get(year) as number[];

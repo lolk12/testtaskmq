@@ -1,5 +1,5 @@
-import { WIDTH_DPI, HEIGHT_DPI, PADDING } from 'src/const/chart';
-import type { NormalizeDataReturn } from 'src/utils/normalizeData/normalizeData';
+import type { NormalizeDataReturn } from '@/utils/normalizeData/normalizeData';
+import { WIDTH_DPI, HEIGHT_DPI, PADDING } from '@/const/chart';
 
 // return ratio real value with coordinate x on canvas
 export const getRatio = (

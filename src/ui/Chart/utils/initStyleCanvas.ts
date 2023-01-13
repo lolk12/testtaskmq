@@ -1,4 +1,4 @@
-import { WIDTH, HEIGHT, WIDTH_DPI, HEIGHT_DPI } from 'src/const/chart';
+import { WIDTH, HEIGHT, WIDTH_DPI, HEIGHT_DPI } from '@/const/chart';
 
 // initialize styles for chart
 export const initStyleCanvas = (canvas: HTMLCanvasElement) => {

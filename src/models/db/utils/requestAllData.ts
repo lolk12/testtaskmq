@@ -1,5 +1,5 @@
-import type { ItemData } from 'src/types';
-import { getData } from 'src/utils/getData';
+import type { ItemData } from '@/types';
+import { getData } from '@/utils/getData';
 
 export const requestAllData = () => {
   const temperaturePromise = getData<ItemData>('../data/temperature.json');
