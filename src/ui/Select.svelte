@@ -200,6 +200,7 @@
     padding: 8px 4px;
     text-align: left;
     opacity: 1;
+    cursor: pointer;
   }
 
   .options__item:not(:last-child) {

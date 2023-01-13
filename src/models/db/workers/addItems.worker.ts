@@ -66,7 +66,7 @@ onmessage = async ({
     ? getNotAddedItems(lastAddedItemPrecipitation, precipitation || [])
     : precipitation;
 
-  return Promise.all([
+  return Promise.allSettled([
     ...addItems(DB, notAddedTemperatureItems, TEMPERATURE_CODE),
     ...addItems(DB, notAddedPrecipitationItems, PRECIPITATION_CODE),
   ])
