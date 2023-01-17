@@ -6,17 +6,17 @@
   import type { NormalizeDataReturn } from './utils/normalizeData/normalizeData';
 
   import { getDataForSelect } from './utils/getDataForSelect';
+  import { getDataMap } from './utils/getDataMap';
   import { getRangeDefaultYears } from './utils/getRangeDefaultYears';
-  import { getAllDataMap } from './utils/getDataMap';
   import { wrapWorker } from './utils/wrapWorker';
 
-  import { TEMPERATURE_CODE, PRECIPITATION_CODE } from './const/data';
   import type { Code } from './const/data';
+  import { DB_NAME, PRECIPITATION_CODE, TEMPERATURE_CODE } from './const/data';
 
-  import { init } from './models/db';
+  import { getCurrentData, init } from './models/db';
 
-  import Select from './ui/Select.svelte';
   import Button from './ui/Button.svelte';
+  import Select from './ui/Select.svelte';
 </script>
 
 <script lang="ts">
@@ -25,7 +25,7 @@
   let code: Code = TEMPERATURE_CODE;
 
   let normalizeData: NormalizeDataReturn;
-  let allDataMap: ReturnType<typeof getAllDataMap>;
+  let allDataMap: Map<Code, ReturnType<typeof getDataMap>>;
 
   const updateData = async () => {
     normalizeData = await wrapWorker<NormalizeDataReturn>(
@@ -56,19 +56,36 @@
   let rangeYears: ReturnType<typeof getRangeDefaultYears>;
   let selectOptions: number[] = [];
 
-  const onClickButton = (val: Code) => () => {
+  const onClickButton = (val: Code) => async () => {
     code = val;
-    updateData();
+    if (allDataMap.has(code)) {
+      updateData();
+    } else {
+      try {
+        const data = await getCurrentData({
+          dbName: DB_NAME,
+          dbVersion: 1,
+          code: val,
+        });
+        allDataMap.set(val, getDataMap(data));
+        updateData();
+      } catch (e) {
+        console.error(e);
+      }
+    }
   };
 
   onMount(async () => {
     try {
-      const { allData } = await init('db', 1);
+      await init(DB_NAME, 1);
+      const data = await getCurrentData({
+        dbName: DB_NAME,
+        dbVersion: 1,
+        code: TEMPERATURE_CODE,
+      });
 
-      allDataMap = getAllDataMap(allData);
-      const currentData = allData[code];
-
-      rangeYears = getRangeDefaultYears(currentData);
+      allDataMap = new Map([[TEMPERATURE_CODE, getDataMap(data)]]);
+      rangeYears = getRangeDefaultYears(data);
       selectStartYear = rangeYears?.startYear;
       selectEndYear = rangeYears?.endYear;
       selectOptions = getDataForSelect(

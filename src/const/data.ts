@@ -3,6 +3,9 @@ export const TEMPERATURE_CODE = 'temperature';
 // key for precipitation data
 export const PRECIPITATION_CODE = 'precipitation';
 
+// db name for indexedDB
+export const DB_NAME = 'db';
+
 type TemperatureType = typeof TEMPERATURE_CODE;
 type PrecipitationType = typeof PRECIPITATION_CODE;
 export type Code = TemperatureType | PrecipitationType;

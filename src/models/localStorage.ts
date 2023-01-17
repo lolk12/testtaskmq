@@ -1,14 +1,23 @@
+import type { Code } from '@/const/data';
 import {
   IS_COMPLETED_WRITE_DB_KEY,
   LAST_ADDED_ITEM_SPACE_KEY,
 } from '../const/data';
 
-// set flag for complited add items to indexedDB
-export const complitedWtiteDB = () => {
-  localStorage.setItem(IS_COMPLETED_WRITE_DB_KEY, 'true');
+// return key completed write in db current data for localStorage
+const getIsCompletedKey = (code: Code) =>
+  `${IS_COMPLETED_WRITE_DB_KEY}_${code}`;
+
+// set flag for completed add items to indexedDB
+export const completedWriteDB = (code: Code) => {
+  localStorage.setItem(getIsCompletedKey(code), 'true');
 };
 
-// return key for last added item to indexedDB
+// check is completed write in db
+export const isCompletedWrite = (code: Code) =>
+  localStorage.getItem(getIsCompletedKey(code)) === 'true';
+
+// return key for last added item to indexedDB for localStorage
 const getLastAddedItemKey = (key: string) =>
   `${LAST_ADDED_ITEM_SPACE_KEY}.${key}`;
 

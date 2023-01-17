@@ -76,7 +76,7 @@
   on:blur={onBlur}
   class={`select-wrapper ${className}`}
   bind:this={selectEl}
-  tabindex="2"
+  tabindex="0"
 >
   <div class="select-wrapper__value">
     {val}

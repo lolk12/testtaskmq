@@ -1,5 +1,4 @@
 import { COEFFICIENT } from '@/const/data';
-import { PADDING_COORDS, WIDTH_DPI } from '@/const/chart';
 
 // get data for a range of years
 export const getRangeDays = (
@@ -26,11 +25,7 @@ export const getRangeDays = (
   return result;
 };
 
-export const getSizeStep = (
-  length: number,
-  width = WIDTH_DPI,
-  padding = PADDING_COORDS
-) => Math.floor(length / (width / padding)) || 1;
+export const getSizeStep = (length: number) => Math.floor(length / 365) || 1;
 
 export const isSmallData = (length: number, stepSize: number) =>
   length < stepSize * 0.5;

@@ -1,6 +1,6 @@
 import {
-  getSizeStep,
   getRangeDays,
+  getSizeStep,
   isSmallData,
   normalizeData,
 } from '../normalizeData';
@@ -16,11 +16,11 @@ const MOCK_DAT_MAP = new Map<number, number[]>([
 
 describe('getSizeStep', () => {
   it('should return size step === 3', () => {
-    expect(getSizeStep(200, WIDTH_DPI, PADDING_COORDS)).toBe(3);
+    expect(getSizeStep(200000)).toBe(547);
   });
 
   it('should return size step === 1', () => {
-    expect(getSizeStep(2, WIDTH_DPI, PADDING_COORDS)).toBe(1);
+    expect(getSizeStep(2)).toBe(1);
   });
 });
 
@@ -28,7 +28,7 @@ describe('normalizeData', () => {
   it('should return min === 2', () => {
     expect(
       normalizeData({ startYear: 2, endYear: 600, dataMap: MOCK_DAT_MAP }).min
-    ).toBe(6);
+    ).toBe(2);
   });
 });
 

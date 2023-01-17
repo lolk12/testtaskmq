@@ -1,9 +1,14 @@
+import type { Code } from '@/const/data';
+import { PRECIPITATION_CODE, TEMPERATURE_CODE } from '@/const/data';
 import type { ItemData } from '@/types';
 import { getData } from '@/utils/getData';
 
-export const requestAllData = () => {
-  const temperaturePromise = getData<ItemData>('../data/temperature.json');
-  const precipitationPromise = getData<ItemData>('../data/precipitation.json');
-
-  return Promise.all<ItemData[]>([temperaturePromise, precipitationPromise]);
+export const requestCurrentData = (code: Code) => {
+  if (code === TEMPERATURE_CODE) {
+    return getData<ItemData>('../data/temperature.json');
+  } else if (code === PRECIPITATION_CODE) {
+    return getData<ItemData>('../data/precipitation.json');
+  } else {
+    return null;
+  }
 };

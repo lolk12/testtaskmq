@@ -1,6 +1,6 @@
 import type { ItemData } from '@/types';
 
-import { TEMPERATURE_CODE, PRECIPITATION_CODE } from '@/const/data';
+import { PRECIPITATION_CODE, TEMPERATURE_CODE } from '@/const/data';
 
 export type Config = {
   start?: string;
@@ -15,7 +15,7 @@ export type AllData = {
   [PRECIPITATION_CODE]: ItemData[];
 };
 
-const wrap = <T>(req: IDBOpenDBRequest | IDBRequest<T>): Promise<T> => {
+export const wrap = <T>(req: IDBOpenDBRequest | IDBRequest<T>): Promise<T> => {
   return new Promise((resolve, reject) => {
     req.onsuccess = () => resolve(req.result as T);
     req.onerror = () => reject(req.error);
@@ -79,22 +79,10 @@ export const get = <T>(
   return wrap<T[]>(objectStore.get(index));
 };
 
-// add new row to the table
-export const add = <T>(
-  db: IDBDatabase,
-  dbObjectKey: Config['dbObjectKey'],
-  val: T
-) => {
-  const tx = db.transaction(dbObjectKey, 'readwrite');
-  const objectStore = tx.objectStore(dbObjectKey);
-
-  return wrap(objectStore.add(val));
-};
-
 export const open = (
   dbName: string,
   dbVersion: number,
-  cb: (innerDB: IDBDatabase) => void
+  cb?: (innerDB: IDBDatabase) => void
 ): Promise<IDBDatabase> | null => {
   if (!indexedDB) {
     return null;
@@ -104,7 +92,9 @@ export const open = (
   openRequest.onupgradeneeded = () => {
     const db = openRequest.result;
 
-    cb(db);
+    if (cb) {
+      cb(db);
+    }
   };
 
   return wrap(openRequest);

@@ -1,26 +1,36 @@
 import type { ItemData } from '@/types';
 
-import { TEMPERATURE_CODE, PRECIPITATION_CODE } from '@/const/data';
+import { PRECIPITATION_CODE, TEMPERATURE_CODE } from '@/const/data';
 
-import * as dbModel from '../db';
 import type { Config } from '../db';
+import * as dbModel from '../db';
 import { getNotAddedItems } from '../utils/getNotAddedItems';
 
+// add new row to the table
+export const add = <T>(val: T, objectStore: IDBObjectStore) => {
+  return dbModel.wrap(objectStore.add(val));
+};
+
+type AddItemsArgs = {
+  db: IDBDatabase;
+  items: ItemData[] | undefined;
+  key: Config['dbObjectKey'];
+};
+
 // add new many row to the table
-const addItems = (
-  db: IDBDatabase,
-  items: ItemData[] | undefined,
-  key: Config['dbObjectKey']
-) => {
+const addItems = ({ items, db, key }: AddItemsArgs) => {
   if (!items) {
     console.error('No items');
     return [];
   }
 
+  const tx = db.transaction(key, 'readwrite');
+  const objectStore = tx.objectStore(key);
+
   const promises: Promise<IDBValidKey>[] = [];
 
   for (const item of items) {
-    const request = dbModel.add(db, key, item);
+    const request = add(item, objectStore);
     request.then((keyRow) => {
       postMessage({
         msg: 'addRowTable',
@@ -38,19 +48,9 @@ const addItems = (
 
 // add all data in indexedDB
 onmessage = async ({
-  data: {
-    dbName,
-    dbVersion,
-    temperature,
-    precipitation,
-    lastAddedItemTemperature,
-    lastAddedItemPrecipitation,
-  },
+  data: { dbName, dbVersion, data, lastAddedItem, code },
 }) => {
-  const DB = await dbModel.open(dbName, dbVersion, (innerDB) => {
-    innerDB.createObjectStore(TEMPERATURE_CODE, { keyPath: 't' });
-    innerDB.createObjectStore(PRECIPITATION_CODE, { keyPath: 't' });
-  });
+  const DB = await dbModel.open(dbName, dbVersion);
 
   if (!DB) {
     console.error('IndexedDB is not available');
@@ -58,18 +58,15 @@ onmessage = async ({
     return;
   }
 
-  const notAddedTemperatureItems = lastAddedItemTemperature
-    ? getNotAddedItems(lastAddedItemTemperature, temperature || [])
-    : temperature;
+  const notAddedItems = getNotAddedItems(lastAddedItem, data || []);
 
-  const notAddedPrecipitationItems = lastAddedItemPrecipitation
-    ? getNotAddedItems(lastAddedItemPrecipitation, precipitation || [])
-    : precipitation;
-
-  return Promise.allSettled([
-    ...addItems(DB, notAddedTemperatureItems, TEMPERATURE_CODE),
-    ...addItems(DB, notAddedPrecipitationItems, PRECIPITATION_CODE),
-  ])
+  return Promise.allSettled(
+    addItems({
+      db: DB,
+      items: notAddedItems,
+      key: code,
+    })
+  )
     .then(() => {
       postMessage({ msg: 'doneAddedItems' });
     })
